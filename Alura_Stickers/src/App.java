@@ -22,10 +22,14 @@ public class App {
         List<Map<String, String>> listaDeFilmes = parser.parse(body);
 
         // exibir e manipular os dados 
+        var tituloBlack = "\u001b[1m Titulo: ";
+        var capaBlack = "\u001b[1m Capa: ";
+        var notaBlack = "\u001b[1m Nota: ";
+        var emoji = "\u2B50";
         for (Map<String,String> filme : listaDeFilmes) {
-            System.out.println(filme.get("title"));
-            System.out.println(filme.get("image"));
-            System.out.println(filme.get("imDbRating"));
+            System.out.println(tituloBlack + "\u001b[0m" + filme.get("title"));
+            System.out.println(capaBlack + "\u001b[0m" + filme.get("image"));
+            System.out.println(notaBlack + "\u001b[0m" + filme.get("imDbRating"));
             System.out.println();
         }
     }
