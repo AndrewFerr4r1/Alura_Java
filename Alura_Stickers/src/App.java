@@ -1,4 +1,6 @@
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -7,30 +9,45 @@ import java.util.List;
 import java.util.Map;
 
 public class App {
+    /**
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
 
-        // Fazer uma conexão HTTP e buscar o top 250 filmes
-        String url = "https://imdb-api.com/en/API/Top250Movies/k_37mekwkr";
-        URI endereco = URI.create(url);
+        // fazer conexão http, e buscar os top 250 filmes
+        String url = "https://mocki.io/v1/9a7c1ca9-29b4-4eb3-8306-1adb9d159060";
+        URI enderco = URI.create(url);
         var client = HttpClient.newHttpClient();
-        var request = HttpRequest.newBuilder(endereco).GET().build(); 
+        var request = HttpRequest.newBuilder(enderco).GET().build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         String body = response.body();
+        // System.out.println(body);
 
-        // pegar os dados que interessam (titulo, poster, classificação)
+        // pegar só os dados que são interessantes(Titulo, Poster e Nota)
         var parser = new JsonParser();
-        List<Map<String, String>> listaDeFilmes = parser.parse(body);
+        List<Map<String, String>> ListaDeFilmes = parser.parse(body);
+        //System.out.println(ListaDeFilmes.size());
+        //System.out.println(ListaDeFilmes.get(0));
 
-        // exibir e manipular os dados 
-        var tituloBlack = "\u001b[1m Titulo: ";
-        var capaBlack = "\u001b[1m Capa: ";
-        var notaBlack = "\u001b[1m Nota: ";
-        var emoji = "\u2B50";
-        for (Map<String,String> filme : listaDeFilmes) {
-            System.out.println(tituloBlack + "\u001b[0m" + filme.get("title"));
-            System.out.println(capaBlack + "\u001b[0m" + filme.get("image"));
-            System.out.println(notaBlack + "\u001b[0m" + filme.get("imDbRating"));
-            System.out.println();
+        var geradora = new geradoraDeFigurinhas();
+
+        // exibir e manipular os dados
+
+
+            for (Map<String, String> filme : ListaDeFilmes) {
+
+                String UrlImage = filme.get("image");
+                String titulo = filme.get("title");
+                InputStream inputStream = new URL(UrlImage).openStream();
+                String nomeArquivo = titulo+".png";
+                geradora.cria(inputStream, nomeArquivo);
+
+                //System.out.println(filme.get("title"));
+                //System.out.println(filme.get("image"));
+                //System.out.println(filme.get("imDbRating"));
+                //System.out.println();
+
+            }
         }
     }
-}
