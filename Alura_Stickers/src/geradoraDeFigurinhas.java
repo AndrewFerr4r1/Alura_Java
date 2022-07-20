@@ -33,7 +33,7 @@ public class geradoraDeFigurinhas {
         graphics.setFont(fonte);
         graphics.setColor(Color.RED);
         // escrever uma frase na nova img
-        graphics.drawString("Filme Bom!!", 150, novaAltura - 100);
+        graphics.drawString("XD", 250, novaAltura - 100);
 
         // escrever nova img em arquivo
         ImageIO.write(novaImagem, "png", new File(nomeArquivo));
